@@ -40,34 +40,53 @@ export const createBook = async (bookData) => {
         });
 
         if (!response.ok) {
-            throw new Error(`Error ${response.status}: ${await response.text()}`);
+            throw new Error(`Error ${response.status}: ${response.statusText}`);
         }
 
         return await response.json();
     } catch (error) {
         console.error("Error al crear el libro:", error);
-        throw error;
+        return null;
     }
 };
 
-// Actualizar un libro
-export const updateBook = async (bookId, updatedData) => {
+// Actualizar un libro existente
+export const updateBook = async (bookId, bookData) => {
     try {
         const response = await fetch(`${API_BASE_URL}/api/books/${bookId}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(updatedData),
+            body: JSON.stringify(bookData),
         });
 
         if (!response.ok) {
-            throw new Error(`Error ${response.status}: ${await response.text()}`);
+            throw new Error(`Error ${response.status}: ${response.statusText}`);
         }
 
         return await response.json();
     } catch (error) {
-        console.error("Error al actualizar el libro:", error);
-        throw error;
+        console.error("❌ Error al actualizar el libro:", error);
+        return null;
     }
 };
+
+// Eliminar un libro existente
+export const deleteBook = async (bookId) => {
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/books/${bookId}`, {
+            method: "DELETE",
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error ${response.status}: ${response.statusText}`);
+        }
+
+        return true; // Retorna true si la eliminación fue exitosa
+    } catch (error) {
+        console.error("❌ Error al eliminar el libro:", error);
+        return false; // Retorna false si hubo un error
+    }
+};
+
