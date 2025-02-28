@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { updateBook } from "../utils/api.js"; // Importamos la función de actualización
+import { useState, useEffect } from "react";
+import { updateBook, fetchAuthors } from "../utils/api.js"; 
 
 const BookUpdate = ({ book, onClose, onUpdate }) => {
     const [updatedBook, setUpdatedBook] = useState({
@@ -9,28 +9,32 @@ const BookUpdate = ({ book, onClose, onUpdate }) => {
         authorId: book?.authorId || "",
     });
 
-    const [loading, setLoading] = useState(false); // Para mostrar un estado de carga
+    const [authors, setAuthors] = useState([]); // Lista de autores
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        const loadAuthors = async () => {
+            const authorsData = await fetchAuthors();
+            setAuthors(authorsData);
+        };
+        loadAuthors();
+    }, []);
 
     const handleChange = (e) => {
         setUpdatedBook({ ...updatedBook, [e.target.name]: e.target.value });
     };
 
     const handleUpdate = async () => {
-        if (!book?.id) {
-            
-            return;
-        }
+        if (!book?.id) return;
 
         setLoading(true);
-
         const result = await updateBook(book.id, updatedBook);
-        
+
         if (result) {
-            
-            onUpdate?.(); // Actualizar la lista de libros
-            onClose?.();  // Cerrar el modal
+            onUpdate?.();
+            onClose?.();
         } else {
-            alert("Error al actualizar el libro. Revisa la consola.");
+            alert("Error al actualizar el libro.");
         }
 
         setLoading(false);
@@ -67,14 +71,20 @@ const BookUpdate = ({ book, onClose, onUpdate }) => {
                 className="w-full border px-3 py-2 rounded mt-1"
             />
 
-            <label className="block text-gray-700 mt-3">Autor ID:</label>
-            <input
-                type="number"
+            <label className="block text-gray-700 mt-3">Autor:</label>
+            <select
                 name="authorId"
                 value={updatedBook.authorId}
                 onChange={handleChange}
                 className="w-full border px-3 py-2 rounded mt-1"
-            />
+            >
+                <option value="">Seleccione un autor</option>
+                {authors.map((author) => (
+                    <option key={author.id} value={author.id}>
+                        {author.name}
+                    </option>
+                ))}
+            </select>
 
             <button
                 onClick={handleUpdate}

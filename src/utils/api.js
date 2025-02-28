@@ -90,3 +90,21 @@ export const deleteBook = async (bookId) => {
     }
 };
 
+export const fetchBooksWithAuthors = async () => {
+    try {
+        const books = await fetchBooks();
+        const authors = await fetchAuthors();
+        
+        // Combinar libros con nombres de autores
+        return books.map(book => {
+            const author = authors.find(a => a.id === book.authorId);
+            return {
+                ...book,
+                authorName: author ? author.name : "Desconocido"
+            };
+        });
+    } catch (error) {
+        console.error("Error al obtener libros con autores:", error);
+        return [];
+    }
+};
