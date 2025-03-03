@@ -1,7 +1,6 @@
 ---
-import BookList from '../components/BookList.jsx';
+import AuthoList from '../components/AuthoList.jsx';
 import Layout from '../layouts/Layout.astro';
-import Register from './Register.astro';
 
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
@@ -9,7 +8,7 @@ import Register from './Register.astro';
 ---
 
 <Layout>
-	<a href="\Register" class="bg-blue-500 text-white px-4 py-2 rounded">Ir a Crear Autor</a>
-	<BookList client:load/>
-	
+    <AuthoList client:load />
+    
+    <a href="http://localhost:4321/" class="bg-blue-500 mt-100 text-white px-4 py-2 rounded">Regresar</a>
 </Layout>

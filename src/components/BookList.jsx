@@ -249,7 +249,7 @@ const BookList = () => {
             {/* Modal de creación */}
             {showCreateModal && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-                    <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+                    <div className="bg-white p-6 rounded-lg shadow-lg w-130">
                         <h2 className="text-xl font-bold text-gray-700 mb-4">
                             Crear Nuevo Libro
                         </h2>

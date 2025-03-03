@@ -14,19 +14,6 @@ export const fetchBooks = async () => {
     }
 };
 
-// Obtener todos los autores
-export const fetchAuthors = async () => {
-    try {
-        const response = await fetch(`${API_BASE_URL}/api/authors`);
-        if (!response.ok) {
-            throw new Error(`Error ${response.status}: ${response.statusText}`);
-        }
-        return await response.json();
-    } catch (error) {
-        console.error("Error al obtener autores:", error);
-        return [];
-    }
-};
 
 // Crear un nuevo libro
 export const createBook = async (bookData) => {
@@ -90,6 +77,42 @@ export const deleteBook = async (bookId) => {
     }
 };
 
+// Obtener todos los autores
+export const fetchAuthors = async () => {
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/authors`);
+        if (!response.ok) {
+            throw new Error(`Error ${response.status}: ${response.statusText}`);
+        }
+        return await response.json();
+    } catch (error) {
+        console.error("Error al obtener autores:", error);
+        return [];
+    }
+};
+
+
+// Crear un nuevo autor
+export const createAuthor = async (authorData) => {
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/authors`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(authorData),
+        });
+        if (!response.ok) {
+            throw new Error(`Error ${response.status}: ${response.statusText}`);
+        }
+        return await response.json();
+    } catch (error) {
+        console.error("Error al crear autor:", error);
+        return null;
+    }
+};
+
+/*
 export const fetchBooksWithAuthors = async () => {
     try {
         const books = await fetchBooks();
@@ -108,3 +131,4 @@ export const fetchBooksWithAuthors = async () => {
         return [];
     }
 };
+*/
